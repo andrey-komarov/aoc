@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::io::{BufRead, Write};
 use crate::problems::common::{Readable, Solvable};
 use anyhow::Result;
@@ -16,12 +17,12 @@ impl Readable for Input {
         input.read_to_string(&mut s)?;
         let nums: Vec<&str> = s.split_whitespace().collect();
         let mut left = Vec::new();
-        let mut right = Vec::new(); 
-        for i in 0..(nums.len() / 2) {  
+        let mut right = Vec::new();
+        for i in 0..(nums.len() / 2) {
             left.push(nums[2 * i].parse()?);
             right.push(nums[2 * i + 1].parse()?);
         }
-        Ok(Input { left, right }) 
+        Ok(Input { left, right })
     }
 }
 
@@ -38,6 +39,27 @@ impl Problem {
 }
 
 impl Solvable for Problem {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}
+
+pub(crate) struct PartTwo {}
+
+impl PartTwo {
+    fn solve(&self, input: Input) -> Output {
+        let mut freq = HashMap::new();
+        for r in input.right {
+            *freq.entry(r).or_insert(0) += 1;
+        }
+        input.left.into_iter().map(|x| freq.get(&x).unwrap_or(&0) * x).sum()
+    }
+}
+
+impl Solvable for PartTwo {
     fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> Result<()> {
         let input = Input::parse_from(input)?;
         let out = self.solve(input);

@@ -55,3 +55,45 @@ impl Solvable for PartOne {
         Ok(())
     }
 }
+
+pub(crate) struct PartTwo {}
+
+impl PartTwo {
+    fn solve(&self, input: &Input) -> Output {
+        fn check(v: &Vec<i32>) -> bool {
+            for i in 0..(v.len() - 1) {
+                let (a, b) = (v[i], v[i + 1]);
+                if (a < b) != (v[0] < v[1]) {
+                    return false;
+                }
+                if (a - b).abs() < 1 || (a - b).abs() > 3 {
+                    return false;
+                }
+            }
+            true
+        }
+        fn check2(v: &Vec<i32>) -> bool {
+            if check(v) {
+                return true;
+            }
+            for skip in 0..v.len() {
+                let mut v2 = v.clone();
+                v2.remove(skip);
+                if check(&v2) {
+                    return true;
+                }
+            }
+            false
+        }
+        input.reports.iter().map(check2).filter(|x| *x).count() as Output
+    }
+}
+
+impl Solvable for PartTwo {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(&input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}

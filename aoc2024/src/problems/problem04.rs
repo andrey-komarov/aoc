@@ -95,6 +95,50 @@ impl Solvable for PartOne {
     }
 }
 
+pub(crate) struct PartTwo {}
+
+impl PartTwo {
+
+    fn count_match(input: &Input, s: &Vec<Vec<char>>) -> i32 {
+        let (rows, cols) = (input.field.len(), input.field[0].len());
+        let (n, m) = (s.len(), s[0].len());
+        (0..rows - n + 1).map(
+            |row| {
+                (0..cols - n + 1).map(|col| {
+                    let is_match = (0..n).all(|i| {
+                        (0..m).all(|j| {
+                            s[i][j] == '.' || input.field[row + i][col + j] == s[i][j]
+                        })
+                    });
+                    if is_match { 1 } else { 0 }
+                }).sum::<i32>()
+            }
+        ).sum()
+    }
+    fn solve(&self, input: Input) -> Output {
+        let mut input2 = input;
+        let mut sum = 0;
+        let xmas = vec![
+            "M.S".chars().collect(),
+            ".A.".chars().collect(),
+            "M.S".chars().collect(),
+        ];
+        for i in (0..4) {
+            sum += Self::count_match(&input2, &xmas);
+            input2 = input2.rotate()
+        }
+        sum
+    }
+}
+
+impl Solvable for PartTwo {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}
 #[cfg(test)]
 mod tests {
     use crate::problems::problem04::*;

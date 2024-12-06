@@ -144,7 +144,7 @@ mod tests {
         let res = mul("mul(1,3)");
         assert_eq!(Ok(("", Mul{lhs: 1, rhs: 3})), res);
     }
-    
+
     #[test]
     fn parse_take() {
         fn parser(s: &str) -> IResult<&str, &str> {
@@ -157,7 +157,7 @@ mod tests {
         let res = parser.parse("mul(2,1000)");
         assert_eq!(Ok(("ul(2,1000)", None)), res);
     }
-    
+
     #[test]
     fn parse_many_ok() {
         let mut parser = many_till(alt((

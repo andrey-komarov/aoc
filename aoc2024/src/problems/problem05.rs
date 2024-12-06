@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::collections::HashSet;
 use std::io::{BufRead, Write};
 use nom::Parser;
@@ -100,3 +101,40 @@ impl Solvable for PartOne {
     }
 }
 
+pub(crate) struct PartTwo {}
+
+impl PartTwo {
+    fn solve(&self, input: Input) -> Output {
+        let good: HashSet<(i32, i32)> = HashSet::from_iter(
+            input.limits.into_iter().map(|Order { before, after }| {
+                (before, after)
+            }));
+        input.updates.into_iter().filter(|u| {
+            (1..u.len()).any(|i| {
+                (0..i).any(|j| {
+                    good.contains(&(u[i], u[j]))
+                })
+            })
+        }).map(|mut u| {
+            u.sort_by(|a, b| {
+                match (a == b, good.contains(&(*a, *b))) { 
+                    (true, _) => Ordering::Equal,
+                    (_, true) => Ordering::Less,
+                    (_, false) => Ordering::Greater,
+                }
+            });
+            u
+        }).map(|u| {
+                u[u.len() / 2]
+        }).sum()
+    }
+}
+
+impl Solvable for PartTwo {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}

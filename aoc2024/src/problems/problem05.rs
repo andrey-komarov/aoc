@@ -116,7 +116,7 @@ impl PartTwo {
             })
         }).map(|mut u| {
             u.sort_by(|a, b| {
-                match (a == b, good.contains(&(*a, *b))) { 
+                match (a == b, good.contains(&(*a, *b))) {
                     (true, _) => Ordering::Equal,
                     (_, true) => Ordering::Less,
                     (_, false) => Ordering::Greater,

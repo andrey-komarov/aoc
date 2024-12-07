@@ -8,7 +8,6 @@ use nom::character::complete::{line_ending, newline};
 use nom::combinator::{eof, map_res};
 use nom::IResult;
 use nom::multi::{many1, separated_list1};
-use nom::sequence::tuple;
 use crate::problems::common::{Readable, Solvable};
 
 struct Order {

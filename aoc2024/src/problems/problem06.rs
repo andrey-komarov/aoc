@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::io::{BufRead, Write};
 use anyhow::anyhow;
 use crate::problems::common::{Readable, Solvable};
@@ -19,10 +19,12 @@ impl Direction {
     }
 }
 
+#[derive(Copy, Clone)]
 enum Cell {
     Empty, Crate,
 }
 
+#[derive(Copy, Clone)]
 struct Pos {
     row: i32,
     col: i32,
@@ -117,6 +119,64 @@ impl PartOne {
 }
 
 impl Solvable for PartOne {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}
+
+pub(crate) struct PartTwo {}
+
+impl PartTwo {
+
+    fn is_loop(input: Input) -> bool {
+        let mut visited = HashMap::new();
+        let mut guard = input.guard;
+        let inside = |guard: &Pos| -> bool {
+            0 <= guard.row && guard.row < input.field.len() as i32
+                && 0 <= guard.col && guard.col < input.field[0].len() as i32
+        };
+        loop {
+            let count = visited.entry((guard.row, guard.col)).or_insert(0);
+            *count += 1;
+            if *count > 4 {
+                return true;
+            }
+            let next = guard.step();
+            if !inside(&next) {
+                return false;
+            }
+            if let Cell::Crate = input.field[next.row as usize][next.col as usize] {
+                guard = Pos {row: guard.row, col: guard.col, dir: guard.dir.rotate()};
+            } else {
+                guard = next
+            }
+        }
+    }
+    fn solve(&self, input: Input) -> Output {
+        let mut field = input.field;
+        let mut count = 0;
+        for i in 0..field.len() {
+            for j in 0..field[0].len() {
+                if (i, j) == (input.guard.row as usize, input.guard.col as usize) {
+                    continue
+                }
+                if let Cell::Crate = field[i][j] {
+                    continue
+                }
+                field[i][j] = Cell::Crate;
+                if Self::is_loop(Input{field: field.clone(), guard: input.guard}) {
+                    count += 1;
+                }
+                field[i][j] = Cell::Empty;
+            }
+        }
+        count
+    }
+}
+impl Solvable for PartTwo {
     fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
         let input = Input::parse_from(input)?;
         let out = self.solve(input);

@@ -84,3 +84,35 @@ impl Solvable for PartOne {
         Ok(())
     }
 }
+
+pub(crate) struct PartTwo {}
+
+impl PartTwo {
+
+    fn is_valid(equation: &Equation) -> bool {
+        fn concat(lhs: i64, rhs: i64) -> i64 {
+            format!("{}{}", lhs, rhs).parse().unwrap()
+        }
+        fn go(head: i64, tail: &[i64], target: i64) -> bool {
+            if tail.len() == 0 {
+                head == target
+            } else {
+                go(head + tail[0], &tail[1..], target) 
+                    || go(head * tail[0], &tail[1..], target)
+                    || go(concat(head, tail[0]), &tail[1..], target)
+            }
+        };
+        go(equation.numbers[0], &equation.numbers[1..], equation.target)
+    }
+    fn solve(&self, input: Input) -> Output {
+        input.equations.into_iter().filter(Self::is_valid).map(|eq| {eq.target}).sum()
+    }
+}
+impl Solvable for PartTwo {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}

@@ -8,4 +8,5 @@ pub(crate) mod problem05;
 pub(crate) mod problem06;
 pub(crate) mod problem07;
 pub(crate) mod problem08;
+pub(crate) mod problem09;
 

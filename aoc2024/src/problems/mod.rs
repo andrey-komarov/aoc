@@ -10,4 +10,4 @@ pub(crate) mod problem07;
 pub(crate) mod problem08;
 pub(crate) mod problem09;
 pub(crate) mod problem10;
-
+pub(crate) mod problem11;

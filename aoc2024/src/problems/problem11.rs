@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::io::{BufRead, Write};
 use anyhow::Error;
 use crate::problems::common::{Readable, Solvable};
@@ -24,9 +25,26 @@ impl Readable for Input {
 
 type Output = i64;
 
-pub(crate) struct PartOne;
+pub(crate) struct PartOne {
+    depth: usize,
+}
 
 impl PartOne {
+    pub(crate) fn new(depth: usize) -> Self {
+        Self { depth }
+    }
+}
+struct PartOneMut {
+    depth: usize,
+    cache: HashMap<(i64, usize), i64>,
+}
+
+impl PartOneMut {
+
+    pub(crate) fn new(depth: usize) -> Self {
+        Self {depth, cache: HashMap::new()}
+    }
+
     fn try_split(stone: i64) -> Option<(i64, i64)> {
         let s = stone.to_string();
         if s.len() % 2 == 0 {
@@ -46,21 +64,27 @@ impl PartOne {
         }
     }
 
-    fn go(stone: i64, steps: usize) -> i64 {
-        match steps {
-            0 => 1,
-            _ => Self::step(stone).into_iter().map(|s| Self::go(s, steps - 1)).sum()
+    fn go(&mut self, stone: i64, steps: usize) -> i64 {
+        if let Some(res) = self.cache.get(&(stone, steps)) {
+            return *res;
         }
+        let res = match steps {
+            0 => 1,
+            _ => Self::step(stone).into_iter().map(|s| self.go(s, steps - 1)).sum()
+        };
+        self.cache.insert((stone, steps), res);
+        res
     }
-    fn solve(&self, input: Input) -> Output {
-       input.stones.into_iter().map(|stone| Self::go(stone, 25)).sum()
+    fn solve(&mut self, input: Input) -> Output {
+       input.stones.into_iter().map(|stone| self.go(stone, self.depth)).sum()
     }
 }
 
 impl Solvable for PartOne {
     fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
         let input = Input::parse_from(input)?;
-        let out = self.solve(input);
+        let mut prob = PartOneMut::new(self.depth);
+        let out = prob.solve(input);
         writeln!(output, "{}", out)?;
         Ok(())
     }

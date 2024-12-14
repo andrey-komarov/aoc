@@ -1,4 +1,4 @@
-use std::io::{BufRead, Write};
+use std::{io::{BufRead, Write}, thread, time::Duration};
 
 use nom::{bytes::{is_not, tag, take_while}, character::complete::newline, combinator::{eof, map_res, opt}, multi::{many0, many_till}, IResult, Parser};
 
@@ -82,7 +82,7 @@ type Output = i64;
 
 impl PartOne {
     fn solve(&self, input: Input) -> Output {
-        println!("{:?}", input);
+        // println!("{:?}", input);
         let wrap = |position, velocity, steps, size| {
             ((position + velocity * steps as i64) % size as i64 + size as i64) as usize % size
         };
@@ -116,11 +116,34 @@ impl PartOne {
         });
         count[0] * count[1] * count[2] * count[3]
     }
+
+    fn solve2(&self, steps: usize, input: &Input) -> () {
+        // println!("{:?}", input);
+        let wrap = |position, velocity, steps, size| {
+            ((position + velocity * steps as i64) % size as i64 + size as i64) as usize % size
+        };
+        let mut field = vec![vec!['.'; self.m]; self.n];
+        let positions = input.robots.iter().for_each(|r| {
+            let x = wrap(r.position.x, r.velocity.x, steps, self.n);
+            let y = wrap(r.position.y, r.velocity.y, steps, self.m);
+            field[x][y] = 'X';
+        });
+        println!();
+        println!("STEPS {}", steps);
+        for line in field {
+            let s: String = line.iter().collect();
+            println!("{}", s);
+        }
+    }
 }
 
 impl Solvable for PartOne {
     fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
         let input = Input::parse_from(input)?;
+        // for i in 0..1000 {
+            // self.solve2(i * 101 + 14, &input);
+        // }
+        self.solve2(6377, &input);
         let out = self.solve(input);
         writeln!(output, "{}", out)?;
         Ok(())

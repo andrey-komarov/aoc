@@ -110,3 +110,33 @@ impl Solvable for PartOne {
         Ok(())
     }
 }
+
+pub(crate) struct PartTwo {}
+
+impl PartTwo {
+
+    fn check(words: &Trie, design: &str) -> usize {
+        let chars = design.chars().collect::<Vec<_>>();
+        let mut reachable = vec![0; chars.len() + 1];
+        reachable[0] = 1;
+        for (i, char) in chars.into_iter().enumerate() {
+            for j in words.prefixes(&design[i..]) {
+                reachable[i + j] += reachable[i];
+            }
+        }
+        *reachable.last().unwrap()
+    }
+    fn solve(&self, input: &Input) -> Output {
+        let mut words = Trie::new();
+        input.towels.iter().for_each(|t| words.insert(t.as_str()));
+        input.designs.iter().map(|d| Self::check(&words, d.as_str())).sum()
+    }
+}
+impl Solvable for PartTwo {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(&input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}

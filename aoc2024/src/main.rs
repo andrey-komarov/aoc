@@ -118,6 +118,8 @@ fn main() -> anyhow::Result<()> {
         
         ("problem19", "sample.in", "sample-part1.out", Box::new(solver(problem19::PartOne{}))),
         ("problem19", "01.in", "01-part1.out", Box::new(solver(problem19::PartOne{}))),
+        ("problem19", "sample.in", "sample-part2.out", Box::new(solver(problem19::PartTwo{}))),
+        ("problem19", "01.in", "01-part2.out", Box::new(solver(problem19::PartTwo{}))),
     ];
     for (dir, input, output, solver) in problems {
         println!("Solving problem {}/{}:", dir, input);

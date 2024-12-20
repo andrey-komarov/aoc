@@ -50,11 +50,17 @@ impl Readable for Input {
     }
 }
 
-pub(crate) struct PartOne {}
+pub(crate) struct PartOne {
+    cheat: isize
+}
 
 type Output = usize;
 
 impl PartOne {
+
+    pub(crate) fn new(cheat: isize) -> Self {
+        Self { cheat }
+    }
 
     fn inside(input: &Input, x: isize, y: isize) -> bool {
         let (n, m) = (input.field.len(), input.field[0].len());
@@ -91,27 +97,32 @@ impl PartOne {
         let (n, m) = (input.field.len(), input.field[0].len());
         let mut shortcuts = HashMap::new();
         let dist = forward[input.finish.x][input.finish.y].unwrap();
-        println!("Finish in {}, start {:?}", dist, backward[input.start.x][input.start.y]);
+        // println!("Finish in {}, start {:?}", dist, backward[input.start.x][input.start.y]);
         for i in 0..n {
             for j in 0..m {
-                for (dx, dy) in [(-2, 0), (2, 0), (0, -2), (0, 2)] {
-                    let (x2, y2) = (i as isize + dx, j as isize + dy);
-                    if !Self::inside(&input, x2, y2) {
-                        continue;
-                    }
-                    let (x2, y2) = (x2 as usize, y2 as usize);
-                    if let Some(d) = forward[i][j] {
-                        if let Some(d2) = backward[x2][y2] {
-                            let short = d + d2 + 2;
-                            if short < dist {
-                                *shortcuts.entry(dist - short).or_insert(0) += 1;
+                for dx in (-self.cheat..=self.cheat) {
+                    for dy in (-self.cheat..=self.cheat) {
+                        if dx.abs() + dy.abs() > self.cheat {
+                            continue;
+                        }
+                        let (x2, y2) = (i as isize + dx, j as isize + dy);
+                        if !Self::inside(&input, x2, y2) {
+                            continue;
+                        }
+                        let (x2, y2) = (x2 as usize, y2 as usize);
+                        if let Some(d) = forward[i][j] {
+                            if let Some(d2) = backward[x2][y2] {
+                                let short = d + d2 + dx.abs() as usize + dy.abs() as usize;
+                                if short < dist {
+                                    *shortcuts.entry(dist - short).or_insert(0) += 1;
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        println!("{:?}", shortcuts);
+        // println!("{:?}", shortcuts);
         shortcuts.into_iter().filter_map(|(k, v)| {
             if k >= 100 {
                 Some(v)

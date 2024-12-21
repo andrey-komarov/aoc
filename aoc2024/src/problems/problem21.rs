@@ -64,7 +64,7 @@ struct StateMachine {
 
 impl StateMachine {
 
-    fn new() -> Self {
+    fn new(layers: usize) -> Self {
         let a = || Some(Action::Activate);
         let d = |digit| Some(Action::Type(digit));
         let m = |dir| {
@@ -76,27 +76,25 @@ impl StateMachine {
                 _ => None
             }
         };
-        Self { panels: vec![
-            Panel { buttons: vec![
-                vec![None, m('^'), a()],
-                vec![m('<'), m('v'), m('>')],
-            ]},
-            Panel { buttons: vec![
-                vec![None, m('^'), a()],
-                vec![m('<'), m('v'), m('>')],
-            ]},
-            Panel { buttons: vec![
+        let mut panels: Vec<_> = (0..layers).map(|_| Panel { buttons: vec![
+            vec![None, m('^'), a()],
+            vec![m('<'), m('v'), m('>')],
+        ]}).collect();
+        panels.push(Panel { buttons: vec![
                 vec![d('7'), d('8'), d('9')],
                 vec![d('4'), d('5'), d('6')],
                 vec![d('1'), d('2'), d('3')],
                 vec![None, d('0'), d('A')],
             ]},
-        ] }
+        );
+        Self { panels }
     }
 
     fn start(&self) -> State {
+        let mut robots = vec![Pos {x: 0, y: 2}; self.panels.len() - 1];
+        robots.push(Pos {x: 3, y: 2});
         State {
-            robots: vec![Pos {x: 0, y: 2}, Pos {x: 0, y: 2}, Pos {x: 3, y: 2}],
+            robots,
             output: vec![],
         }
     }
@@ -152,9 +150,15 @@ impl Readable for Input {
 }
 
 type Output = i64;
-pub(crate) struct PartOne {}
+pub(crate) struct PartOne {
+    layers: usize,
+}
 
 impl PartOne {
+
+    pub(crate) fn new(layers: usize) -> Self {
+        Self { layers }
+    }
 
     fn is_dead_end(&self, input: &Input, state: &State) -> bool {
         !input.codes.iter().any(|code| {
@@ -165,7 +169,7 @@ impl PartOne {
         })
     }
     fn solve(&self, input: Input) -> Output {
-        let state_machine = StateMachine::new();
+        let state_machine = StateMachine::new(self.layers);
         let state = state_machine.start();
         let mut distance = HashMap::from([(state.clone(), 0)]);
         let mut queue = VecDeque::from([(0, state)]);

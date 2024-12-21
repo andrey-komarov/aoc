@@ -1,9 +1,11 @@
 use std::collections::{HashMap, HashSet, VecDeque};
+use std::fmt;
+use std::fmt::Formatter;
 use std::io::{BufRead, Write};
 use anyhow::anyhow;
 use crate::problems::common::{Readable, Solvable};
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Hash)]
 enum Direction {
     Left, Right, Up, Down
 }
@@ -15,6 +17,15 @@ impl Direction {
             Direction::Right => (0, 1),
             Direction::Up => (-1, 0),
             Direction::Down => (1, 0),
+        }
+    }
+
+    fn button_pos(&self) -> Vector {
+        match self {
+            Direction::Left => Vector::new(1, -2),
+            Direction::Right => Vector::new(1, 0),
+            Direction::Up => Vector::new(0, -1),
+            Direction::Down => Vector::new(1, -1),
         }
     }
 }
@@ -207,6 +218,174 @@ impl PartOne {
     }
 }
 impl Solvable for PartOne {
+    fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
+        let input = Input::parse_from(input)?;
+        let out = self.solve(input);
+        writeln!(output, "{}", out)?;
+        Ok(())
+    }
+}
+
+pub(crate) struct PartTwo {
+    layers: usize,
+}
+
+impl PartTwo {
+    pub(crate) fn new(layers: usize) -> Self {
+        Self { layers }
+    }
+
+    fn solve(&self, input: Input) -> Output {
+        let mut x = PartTwoMut::new(self.layers);
+        x.solve(input)
+    }
+}
+
+#[derive(Clone, Eq, PartialEq, Hash)]
+struct Vector {
+    dx: isize,
+    dy: isize,
+}
+
+impl fmt::Debug for Vector {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "({}, {})", self.dx, self.dy)
+    }
+}
+
+impl Vector {
+    fn new(dx: isize, dy: isize) -> Self {
+        Self { dx, dy }
+    }
+
+    fn to(&self, other: &Vector) -> Self {
+        Self { dx: other.dx - self.dx, dy: other.dy - self.dy }
+    }
+
+    fn len(&self) -> usize {
+        self.dx.abs() as usize + self.dy.abs() as usize
+    }
+
+    fn extra_clicks(&self) -> usize {
+        let dx = if self.dx.abs() > 1 {
+            self.dx.abs() as usize - 1
+        } else { 0 };
+        let dy = if self.dy.abs() > 1 {
+            self.dy.abs() as usize - 1
+        } else { 0 };
+        dx + dy
+    }
+
+    fn to_paths(&self) -> Vec<Vec<Vector>> {
+        let vertical = if self.dx < 0 { Direction::Up } else { Direction::Down };
+        let horizontal = if self.dy < 0 { Direction::Left } else { Direction::Right };
+        let start = Vector::new(0, 0);
+        fn to_circular_path(points: &Vec<Vector>) -> Vec<Vector> {
+            let mut res = Vec::new();
+            let zero = Vector::new(0, 0);
+            let mut cur = &zero;
+            for point in points {
+                res.push(cur.to(&point));
+                cur = point;
+            }
+            res.push(cur.to(&zero));
+            res
+        }
+        if self.dx == 0 {
+            vec![to_circular_path(&vec![horizontal.button_pos()])]
+        } else if self.dy == 0 {
+            vec![to_circular_path(&vec![vertical.button_pos()])]
+        } else {
+            vec![
+                to_circular_path(&vec![horizontal.button_pos(), vertical.button_pos()]),
+                to_circular_path(&vec![vertical.button_pos(), horizontal.button_pos()]),
+            ]
+        }
+    }
+}
+
+struct PartTwoMut {
+    layers: usize,
+    cache: HashMap<(usize, Vector), usize>,
+}
+
+impl PartTwoMut {
+
+
+    fn new(layers: usize) -> Self {
+        Self {
+            layers,
+            cache: HashMap::new(),
+        }
+    }
+
+    fn click_at(&mut self, layer: usize, v: &Vector) -> usize {
+        if layer == 0 {
+            return 1;
+        }
+        if let Some(res) = self.cache.get(&(layer, v.clone())) {
+            return *res;
+        }
+        let res = v.to_paths().into_iter().map(|path| {
+            path.iter().map(|v| {
+                self.click_at(layer - 1, &v) // + v.extra_clicks()
+            }).sum::<usize>()
+        }).min().unwrap() + v.extra_clicks();
+        println!("click_at({}, {:?}) = ...", layer, v);
+        let res2 = v.to_paths().into_iter().map(|path| {
+            let x = path.iter().map(|v| {
+                self.click_at(layer - 1, &v) // + v.extra_clicks()
+            }).sum::<usize>();
+            println!("... {:?}: {}", path, x );
+            x
+        }).min().unwrap();
+        self.cache.insert((layer, v.clone()), res);
+        println!("=== ({}, {:?}) = {:?}", layer, v, res);
+        res
+    }
+
+    fn solve1(&mut self, input: Vec<char>) -> Output {
+        fn button_pos(button: char) -> Vector {
+            let panel = vec![
+                vec!['7', '8', '9'],
+                vec!['4', '5', '6'],
+                vec!['1', '2', '3'],
+                vec!['.', '0', 'A'],
+            ];
+            for (x, line) in panel.into_iter().enumerate() {
+                for (y, c) in line.into_iter().enumerate() {
+                    if c == button {
+                        return Vector::new(x as isize, y as isize);
+                    }
+                }
+            }
+            panic!()
+        }
+        let mut pos = Vector::new(3, 2);
+        let mut sum: Output = 0;
+        for button in input.into_iter() {
+            let v = button_pos(button);
+            sum += self.click_at(self.layers + 1, &pos.to(&v)) as Output;
+            pos = v;
+        }
+        sum
+    }
+
+    fn solve(&mut self, input: Input) -> Output {
+        println!("{:?}", self.click_at(2, &Vector::new(1, -2)));
+        // return 0;
+        let answers: HashMap<_, _> = input.codes.into_iter().map(|code| {
+            (code.clone(), self.solve1(code))
+        }).collect();
+        println!("Answers {:?}", answers);
+        answers.into_iter().map(|(mut k, v)| {
+            k.pop();
+            String::from_iter(k.into_iter()).parse::<i64>().unwrap() * v
+        }).sum()
+    }
+}
+
+impl Solvable for PartTwo {
     fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
         let input = Input::parse_from(input)?;
         let out = self.solve(input);

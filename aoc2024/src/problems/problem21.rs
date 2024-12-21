@@ -144,7 +144,7 @@ impl StateMachine {
     }
 }
 
-struct Input {
+pub struct Input {
     codes: Vec<Vec<char>>
 }
 
@@ -187,7 +187,7 @@ impl PartOne {
             })
         })
     }
-    fn solve(&self, input: Input) -> Output {
+    pub fn solve(&self, input: &Input) -> Output {
         let state_machine = StateMachine::new(self.layers);
         let state = state_machine.start();
         let mut distance = HashMap::from([(state.clone(), 0)]);
@@ -218,7 +218,7 @@ impl PartOne {
                 }
             }
         }
-        println!("Answers {:?}", answers);
+        // println!("Answers {:?}", answers);
         answers.into_iter().map(|(mut k, v)| {
             k.pop();
             String::from_iter(k.into_iter()).parse::<i64>().unwrap() * v
@@ -228,7 +228,7 @@ impl PartOne {
 impl Solvable for PartOne {
     fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
         let input = Input::parse_from(input)?;
-        let out = self.solve(input);
+        let out = self.solve(&input);
         writeln!(output, "{}", out)?;
         Ok(())
     }
@@ -243,7 +243,7 @@ impl PartTwo {
         Self { layers }
     }
 
-    fn solve(&self, input: Input) -> Output {
+    pub fn solve(&self, input: &Input) -> Output {
         let mut x = PartTwoMut::new(self.layers);
         x.solve(input)
     }
@@ -370,16 +370,16 @@ impl PartTwoMut {
                 self.click_at(layer - 1, &v) // + v.extra_clicks()
             }).sum::<usize>()
         }).min().unwrap() + v.extra_clicks();
-        println!("click_at({}, {:?}) = ...", layer, v);
+        // println!("click_at({}, {:?}) = ...", layer, v);
         let res2 = v.to_paths().into_iter().map(|path| {
             let x = path.iter().map(|v| {
                 self.click_at(layer - 1, &v) // + v.extra_clicks()
             }).sum::<usize>();
-            println!("... {:?}: {}", path, x );
+            // println!("... {:?}: {}", path, x );
             x
         }).min().unwrap();
         self.cache.insert((layer, v.clone()), res);
-        println!("=== ({}, {:?}) = {:?}", layer, v, res);
+        // println!("=== ({}, {:?}) = {:?}", layer, v, res);
         res
     }
 
@@ -387,7 +387,7 @@ impl PartTwoMut {
         if layer == self.layers + 1 {
             pos != Pos { x: 3, y: 0 }
         } else {
-            pos != Pos { x: 0, y: 2 }
+            pos != Pos { x: 0, y: 0 }
         }
     }
 
@@ -395,13 +395,16 @@ impl PartTwoMut {
         if layer == 0 {
             return 1;
         }
+        if start == finish {
+            return 1;
+        }
         if let Some(res) = self.cache2.get(&(layer, start.clone(), finish.clone())) {
             return *res;
         }
-        println!("enter move_and_click({}, {:?}, {:?}) = ...", layer, start, finish);
+        // println!("enter move_and_click({}, {:?}, {:?}) = ...", layer, start, finish);
         let v = start.to(finish);
         let res = v.to_paths2().into_iter().filter_map(|(path_down, path_current)| {
-            println!("... move_and_click({}, {:?}, {:?}) OPT {:?} {:?}", layer, start, finish, path_down, path_current);
+            // println!("... move_and_click({}, {:?}, {:?}) OPT {:?} {:?}", layer, start, finish, path_down, path_current);
             let mut pos_here = *start;
             for v in path_current {
                 let next = pos_here.plus(&v);
@@ -410,22 +413,23 @@ impl PartTwoMut {
                 }
                 pos_here = next;
             }
-            println!("... ... good");
+            // println!("... ... good");
             let mut pos_down = Pos {x: 0, y: 2};
             let mut sum = 0;
             for v in path_down.iter() {
                 let next = pos_down.plus(v);
-                sum += self.move_and_click(layer - 1, &pos_down, &next) // + v.extra_clicks()
+                sum += self.move_and_click(layer - 1, &pos_down, &next); // + v.extra_clicks()
+                pos_down = next;
             }
             Some(sum)
         }).min().unwrap() + v.extra_clicks();
-        println!("move_and_click({}, {:?}, {:?}: {:?}) = ...", layer, start, finish, v);
+        // println!("move_and_click({}, {:?}, {:?}: {:?}) = ...", layer, start, finish, v);
         self.cache2.insert((layer, *start, *finish), res);
-        println!("=== ({}, {:?}) = {:?}", layer, v, res);
+        // println!("=== ({}, {:?}) = {:?}", layer, v, res);
         res
     }
 
-    fn solve1(&mut self, input: Vec<char>) -> Output {
+    fn solve1(&mut self, input: &Vec<char>) -> Output {
         fn button_pos(button: char) -> Pos {
             let panel = vec![
                 vec!['7', '8', '9'],
@@ -447,21 +451,21 @@ impl PartTwoMut {
         let mut pos = Pos {x: 3, y: 2};
         let mut sum: Output = 0;
         for button in input.into_iter() {
-            let next = button_pos(button);
+            let next = button_pos(*button);
             sum += self.move_and_click(self.layers + 1, &pos, &next) as Output;
             pos = next;
         }
         sum
     }
 
-    fn solve(&mut self, input: Input) -> Output {
+    fn solve(&mut self, input: &Input) -> Output {
         // println!("{:?}", self.click_at(2, &Vector::new(1, -2)));
-        println!("{:?}", self.move_and_click(3, &Pos { x: 3, y: 2 }, &Pos { x: 1, y: 0 }));
+        // println!("{:?}", self.move_and_click(3, &Pos { x: 3, y: 2 }, &Pos { x: 1, y: 0 }));
         // return 0;
-        let answers: HashMap<_, _> = input.codes.into_iter().map(|code| {
+        let answers: HashMap<_, _> = input.codes.iter().map(|code| {
             (code.clone(), self.solve1(code))
         }).collect();
-        println!("Answers {:?}", answers);
+        // println!("Answers {:?}", answers);
         answers.into_iter().map(|(mut k, v)| {
             k.pop();
             String::from_iter(k.into_iter()).parse::<i64>().unwrap() * v
@@ -472,8 +476,27 @@ impl PartTwoMut {
 impl Solvable for PartTwo {
     fn solve<R: BufRead, W: Write>(&self, input: R, mut output: W) -> anyhow::Result<()> {
         let input = Input::parse_from(input)?;
-        let out = self.solve(input);
+        let out = self.solve(&input);
         writeln!(output, "{}", out)?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::problems::problem21::*;
+
+    #[test]
+    fn part1_part2_ok2() {
+        for layers in [2, 3] {
+            for i in 1..100 {
+                let inp = Input { codes: vec![format!("{}A", i).chars().collect()] };
+                let p1 = PartOne::new(layers);
+                let p2 = PartTwo::new(layers);
+                let o1 = p1.solve(&inp);
+                let o2 = p2.solve(&inp);
+                assert_eq!(o1, o2, "At {} layers {}A test", layers, i);
+            }
+        }
     }
 }

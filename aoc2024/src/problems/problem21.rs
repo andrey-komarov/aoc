@@ -37,7 +37,7 @@ enum Action {
     Activate,
 }
 
-#[derive(Debug, Clone, Hash, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 struct Pos {
     x: isize,
     y: isize,
@@ -50,6 +50,14 @@ impl Pos {
             x: self.x + dx,
             y: self.y + dy,
         }
+    }
+
+    fn to(&self, other: &Pos) -> Vector {
+        Vector::new(other.x - self.x, other.y - self.y)
+    }
+
+    fn plus(&self, d: &Vector) -> Pos {
+        Pos {x: self.x + d.dx, y: self.y + d.dy}
     }
 }
 
@@ -302,11 +310,41 @@ impl Vector {
             ]
         }
     }
+
+    fn to_paths2(&self) -> Vec<(Vec<Vector>, Vec<Vector>)> {
+        let vertical = if self.dx < 0 { Direction::Up } else { Direction::Down };
+        let horizontal = if self.dy < 0 { Direction::Left } else { Direction::Right };
+        let start = Vector::new(0, 0);
+        fn to_circular_path(points: &Vec<Vector>) -> Vec<Vector> {
+            let mut res = Vec::new();
+            let zero = Vector::new(0, 0);
+            let mut cur = &zero;
+            for point in points {
+                res.push(cur.to(&point));
+                cur = point;
+            }
+            res.push(cur.to(&zero));
+            res
+        }
+        if self.dx == 0 {
+            vec![(to_circular_path(&vec![horizontal.button_pos()]), vec![Vector::new(self.dx, self.dy)] )]
+        } else if self.dy == 0 {
+            vec![(to_circular_path(&vec![vertical.button_pos()]), vec![Vector::new(self.dx, self.dy)] )]
+        } else {
+            vec![
+                (to_circular_path(&vec![horizontal.button_pos(), vertical.button_pos()]),
+                 vec![Vector::new(0, self.dy), Vector::new(self.dx, 0)]),
+                (to_circular_path(&vec![vertical.button_pos(), horizontal.button_pos()]),
+                 vec![Vector::new(self.dx, 0), Vector::new(0, self.dy)]),
+            ]
+        }
+    }
 }
 
 struct PartTwoMut {
     layers: usize,
     cache: HashMap<(usize, Vector), usize>,
+    cache2: HashMap<(usize, Pos, Pos), usize>,
 }
 
 impl PartTwoMut {
@@ -316,6 +354,7 @@ impl PartTwoMut {
         Self {
             layers,
             cache: HashMap::new(),
+            cache2: HashMap::new(),
         }
     }
 
@@ -344,8 +383,50 @@ impl PartTwoMut {
         res
     }
 
+    fn is_pos_allowed(&self,  layer: usize, pos: Pos) -> bool {
+        if layer == self.layers + 1 {
+            pos != Pos { x: 3, y: 0 }
+        } else {
+            pos != Pos { x: 0, y: 2 }
+        }
+    }
+
+    fn move_and_click(&mut self, layer: usize, start: &Pos, finish: &Pos) -> usize {
+        if layer == 0 {
+            return 1;
+        }
+        if let Some(res) = self.cache2.get(&(layer, start.clone(), finish.clone())) {
+            return *res;
+        }
+        println!("enter move_and_click({}, {:?}, {:?}) = ...", layer, start, finish);
+        let v = start.to(finish);
+        let res = v.to_paths2().into_iter().filter_map(|(path_down, path_current)| {
+            println!("... move_and_click({}, {:?}, {:?}) OPT {:?} {:?}", layer, start, finish, path_down, path_current);
+            let mut pos_here = *start;
+            for v in path_current {
+                let next = pos_here.plus(&v);
+                if !self.is_pos_allowed(layer, next) {
+                    return None;
+                }
+                pos_here = next;
+            }
+            println!("... ... good");
+            let mut pos_down = Pos {x: 0, y: 2};
+            let mut sum = 0;
+            for v in path_down.iter() {
+                let next = pos_down.plus(v);
+                sum += self.move_and_click(layer - 1, &pos_down, &next) // + v.extra_clicks()
+            }
+            Some(sum)
+        }).min().unwrap() + v.extra_clicks();
+        println!("move_and_click({}, {:?}, {:?}: {:?}) = ...", layer, start, finish, v);
+        self.cache2.insert((layer, *start, *finish), res);
+        println!("=== ({}, {:?}) = {:?}", layer, v, res);
+        res
+    }
+
     fn solve1(&mut self, input: Vec<char>) -> Output {
-        fn button_pos(button: char) -> Vector {
+        fn button_pos(button: char) -> Pos {
             let panel = vec![
                 vec!['7', '8', '9'],
                 vec!['4', '5', '6'],
@@ -355,24 +436,27 @@ impl PartTwoMut {
             for (x, line) in panel.into_iter().enumerate() {
                 for (y, c) in line.into_iter().enumerate() {
                     if c == button {
-                        return Vector::new(x as isize, y as isize);
+                        // return Vector::new(x as isize, y as isize);
+                        return Pos {x: x as isize, y: y as isize };
                     }
                 }
             }
             panic!()
         }
-        let mut pos = Vector::new(3, 2);
+        // let mut pos = Vector::new(3, 2);
+        let mut pos = Pos {x: 3, y: 2};
         let mut sum: Output = 0;
         for button in input.into_iter() {
-            let v = button_pos(button);
-            sum += self.click_at(self.layers + 1, &pos.to(&v)) as Output;
-            pos = v;
+            let next = button_pos(button);
+            sum += self.move_and_click(self.layers + 1, &pos, &next) as Output;
+            pos = next;
         }
         sum
     }
 
     fn solve(&mut self, input: Input) -> Output {
-        println!("{:?}", self.click_at(2, &Vector::new(1, -2)));
+        // println!("{:?}", self.click_at(2, &Vector::new(1, -2)));
+        println!("{:?}", self.move_and_click(3, &Pos { x: 3, y: 2 }, &Pos { x: 1, y: 0 }));
         // return 0;
         let answers: HashMap<_, _> = input.codes.into_iter().map(|code| {
             (code.clone(), self.solve1(code))

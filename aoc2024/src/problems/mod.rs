@@ -20,3 +20,4 @@ pub(crate) mod problem17;
 pub(crate) mod problem18;
 pub(crate) mod problem19;
 pub(crate) mod problem20;
+pub(crate) mod problem21;

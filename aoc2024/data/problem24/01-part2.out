@@ -1,445 +1,670 @@
+dfp [shape=circle]
 y44 -> dfp;
 x44 -> dfp;
+pvg [shape=diamond]
 shn -> pvg;
 nmv -> pvg;
+vrf [shape=box]
 hgv -> vrf;
 ckv -> vrf;
+bmn [shape=box]
 rpn -> bmn;
 vjh -> bmn;
+ggp [shape=box]
 fkr -> ggp;
 pvg -> ggp;
+vcd [shape=box]
 fhf -> vcd;
 trb -> vcd;
+trb [shape=diamond]
 kkq -> trb;
 vvs -> trb;
+kvn [shape=diamond]
 dgm -> kvn;
 ctf -> kvn;
+gvs [shape=diamond]
 phq -> gvs;
 kbq -> gvs;
+mwn [shape=diamond]
 sqv -> mwn;
 wmm -> mwn;
+rmf [shape=box]
 y08 -> rmf;
 x08 -> rmf;
+htt [shape=diamond]
 ktm -> htt;
 fsb -> htt;
+ctf [shape=box]
 x14 -> ctf;
 y14 -> ctf;
+kgm [shape=circle]
 y20 -> kgm;
 x20 -> kgm;
+btb [shape=diamond]
 vcd -> btb;
 fsh -> btb;
+dds [shape=circle]
 x22 -> dds;
 y22 -> dds;
+cwj [shape=circle]
 y17 -> cwj;
 x17 -> cwj;
+mbr [shape=circle]
 y34 -> mbr;
 x34 -> mbr;
+vgd [shape=box]
 y20 -> vgd;
 x20 -> vgd;
+z45 [shape=diamond]
 mks -> z45;
 cdk -> z45;
+dgb [shape=box]
 x33 -> dgb;
 y33 -> dgb;
+z42 [shape=circle]
 ckv -> z42;
 hgv -> z42;
+z31 [shape=circle]
 bmp -> z31;
 bcb -> z31;
+z39 [shape=circle]
 mwg -> z39;
 hrf -> z39;
+kvq [shape=circle]
 y33 -> kvq;
 x33 -> kvq;
+rvd [shape=diamond]
 cvj -> rvd;
 ftw -> rvd;
+jkn [shape=box]
 hrf -> jkn;
 mwg -> jkn;
+fhf [shape=circle]
 y32 -> fhf;
 x32 -> fhf;
+ppm [shape=diamond]
 rkj -> ppm;
 gsd -> ppm;
+hkg [shape=circle]
 y40 -> hkg;
 x40 -> hkg;
+z02 [shape=circle]
 vjh -> z02;
 rpn -> z02;
+bwq [shape=box]
 kgg -> bwq;
 jrg -> bwq;
+qnd [shape=box]
 y22 -> qnd;
 x22 -> qnd;
+z19 [shape=circle]
 dnq -> z19;
 rpv -> z19;
+crn [shape=diamond]
 ghk -> crn;
 qhj -> crn;
+z17 [shape=circle]
 cwj -> z17;
 gvs -> z17;
+bhv [shape=circle]
 x35 -> bhv;
 y35 -> bhv;
+hrf [shape=circle]
 y39 -> hrf;
 x39 -> hrf;
+z34 [shape=circle]
 mbr -> z34;
 wbd -> z34;
+cvj [shape=box]
 kfb -> cvj;
 nkh -> cvj;
+phq [shape=box]
 pvn -> phq;
 tmp -> phq;
+z15 [shape=circle]
 kvn -> z15;
 prg -> z15;
+jrg [shape=diamond]
 dtr -> jrg;
 jtr -> jrg;
-vsv -> z06;
-jnt -> z06;
+fhc [shape=diamond]
+vsv -> fhc;
+jnt -> fhc;
+ckv [shape=diamond]
 hkj -> ckv;
 fjp -> ckv;
-y23 -> ggt;
-x23 -> ggt;
-dfp -> mks;
-rvd -> mks;
-ftr -> z30;
-mqt -> z30;
-y05 -> ptv;
-x05 -> ptv;
-y26 -> tbj;
-x26 -> tbj;
-y34 -> fhv;
-x34 -> fhv;
-x28 -> rqt;
-y28 -> rqt;
-ppm -> z22;
-dds -> z22;
-whw -> spr;
-grc -> spr;
-jjs -> z36;
-cfp -> z36;
-x19 -> dnq;
-y19 -> dnq;
-qjh -> msm;
-qns -> msm;
-tmp -> z16;
-pvn -> z16;
-x08 -> tpb;
-y08 -> tpb;
-fkr -> z04;
-pvg -> z04;
-tpb -> wvn;
-rgt -> wvn;
-x21 -> tvs;
-y21 -> tvs;
-x03 -> jqs;
-y03 -> jqs;
-x02 -> vjh;
-y02 -> vjh;
-x25 -> vgk;
-y25 -> vgk;
-hqk -> cfp;
-bvg -> cfp;
-x42 -> gwf;
-y42 -> gwf;
-x30 -> ftr;
-y30 -> ftr;
-jrg -> z27;
-kgg -> z27;
-x17 -> qch;
-y17 -> qch;
-tvs -> rkj;
-dtm -> rkj;
-rqt -> z28;
-cgr -> z28;
-y41 -> jvt;
-x41 -> jvt;
-y12 -> sfq;
-x12 -> sfq;
-gnf -> rpv;
-gjb -> rpv;
-y29 -> grc;
-x29 -> grc;
-bck -> z01;
-rdm -> z01;
-y26 -> jtr;
-x26 -> jtr;
-x15 -> prg;
-y15 -> prg;
-hwc -> rnc;
-hsn -> rnc;
-y36 -> jjs;
-x36 -> jjs;
-rgq -> mwg;
-rfb -> mwg;
-y27 -> kgg;
-x27 -> kgg;
-sdm -> z38;
-wfs -> z38;
-dgb -> wbd;
-cgn -> wbd;
-jrh -> rmd;
-rnj -> rmd;
-tcd -> qwd;
-qkm -> qwd;
-x37 -> hmp;
-y37 -> hmp;
-rmd -> z11;
-nmm -> z11;
-cjr -> rpn;
-dsn -> rpn;
-x09 -> hwc;
-y09 -> hwc;
-y14 -> ghf;
-x14 -> ghf;
-htt -> hkj;
-jvt -> hkj;
-x00 -> z00;
-y00 -> z00;
-gdb -> z05;
-tgc -> z05;
-dhb -> z37;
-hmp -> z37;
-gdb -> pws;
-tgc -> pws;
-qwd -> z13;
-scq -> z13;
-sfq -> qkm;
-crn -> qkm;
-y21 -> gsd;
-x21 -> gsd;
-wvp -> hsn;
-pck -> hsn;
-x06 -> jnt;
-y06 -> jnt;
-btb -> z33;
-kvq -> z33;
-x31 -> bcb;
-y31 -> bcb;
-y13 -> fpf;
-x13 -> fpf;
-kgm -> qfr;
-mwn -> qfr;
-cff -> kwj;
-fhv -> kwj;
-cmv -> kjh;
-qch -> kjh;
-y41 -> fjp;
-x41 -> fjp;
-rdm -> dsn;
-bck -> dsn;
-rmm -> sdm;
-npc -> sdm;
-y03 -> nmv;
-x03 -> nmv;
-fhf -> z32;
-trb -> z32;
-y40 -> ktm;
-x40 -> ktm;
-x11 -> ghk;
-y11 -> ghk;
-jdd -> mqt;
-spr -> mqt;
-dtm -> z21;
-tvs -> z21;
-msm -> z26;
-tbj -> z26;
-hkg -> fsb;
-mtb -> fsb;
-wpp -> rvj;
-fpf -> rvj;
-vgk -> z25;
-sjq -> z25;
-x01 -> bck;
-y01 -> bck;
-nkh -> z43;
-kfb -> z43;
-hfd -> qpp;
-bmn -> qpp;
-x16 -> pvn;
-y16 -> pvn;
-x01 -> cjr;
-y01 -> cjr;
-scp -> vsv;
-vkd -> vsv;
-pns -> dbr;
-fhc -> dbr;
-msm -> dtr;
-tbj -> dtr;
-nrv -> gjb;
-kjh -> gjb;
-ggt -> pdp;
-ftg -> pdp;
-y38 -> rgq;
-x38 -> rgq;
-rnc -> z10;
-vms -> z10;
-y44 -> cdk;
-x44 -> cdk;
-y10 -> rnj;
-x10 -> rnj;
-ggp -> gdb;
-wgc -> gdb;
-vnb -> ftg;
-qnd -> ftg;
-y37 -> npc;
-x37 -> npc;
-dds -> vnb;
-ppm -> vnb;
-cfp -> krr;
-jjs -> krr;
-y32 -> fsh;
-x32 -> fsh;
-mqt -> qhr;
-ftr -> qhr;
+mwh [shape=box]
 y23 -> mwh;
 x23 -> mwh;
-y18 -> nrv;
-x18 -> nrv;
-sjq -> qns;
-vgk -> qns;
-y19 -> sqv;
-x19 -> sqv;
-gwf -> nkh;
-vrf -> nkh;
-x39 -> prq;
-y39 -> prq;
-y09 -> wvp;
-x09 -> wvp;
-mtb -> z40;
-hkg -> z40;
+mks [shape=box]
+dfp -> mks;
+rvd -> mks;
+z30 [shape=circle]
+ftr -> z30;
+mqt -> z30;
+ptv [shape=box]
+y05 -> ptv;
+x05 -> ptv;
+tbj [shape=circle]
+y26 -> tbj;
+x26 -> tbj;
+fhv [shape=box]
+y34 -> fhv;
+x34 -> fhv;
+rqt [shape=circle]
+x28 -> rqt;
+y28 -> rqt;
+z22 [shape=circle]
+ppm -> z22;
+dds -> z22;
+spr [shape=box]
+whw -> spr;
+grc -> spr;
+z36 [shape=circle]
+jjs -> z36;
+cfp -> z36;
+dnq [shape=circle]
+x19 -> dnq;
+y19 -> dnq;
+msm [shape=diamond]
+qjh -> msm;
+qns -> msm;
+z16 [shape=circle]
+tmp -> z16;
+pvn -> z16;
+tpb [shape=circle]
+x08 -> tpb;
+y08 -> tpb;
+z04 [shape=circle]
+fkr -> z04;
+pvg -> z04;
+wvn [shape=box]
+tpb -> wvn;
+rgt -> wvn;
+tvs [shape=circle]
+x21 -> tvs;
+y21 -> tvs;
+jqs [shape=circle]
+x03 -> jqs;
+y03 -> jqs;
+vjh [shape=circle]
+x02 -> vjh;
+y02 -> vjh;
+vgk [shape=circle]
+x25 -> vgk;
+y25 -> vgk;
+cfp [shape=diamond]
+hqk -> cfp;
+bvg -> cfp;
+gwf [shape=box]
+x42 -> gwf;
+y42 -> gwf;
+ftr [shape=circle]
+x30 -> ftr;
+y30 -> ftr;
+z27 [shape=circle]
+jrg -> z27;
+kgg -> z27;
+qch [shape=box]
+x17 -> qch;
+y17 -> qch;
+rkj [shape=box]
+tvs -> rkj;
+dtm -> rkj;
+z28 [shape=circle]
+rqt -> z28;
+cgr -> z28;
+jvt [shape=circle]
+y41 -> jvt;
+x41 -> jvt;
+sfq [shape=circle]
+y12 -> sfq;
+x12 -> sfq;
+rpv [shape=diamond]
+gnf -> rpv;
+gjb -> rpv;
+grc [shape=circle]
+y29 -> grc;
+x29 -> grc;
+z01 [shape=circle]
+bck -> z01;
+rdm -> z01;
+jtr [shape=box]
+y26 -> jtr;
+x26 -> jtr;
+prg [shape=circle]
+x15 -> prg;
+y15 -> prg;
+rnc [shape=diamond]
+hwc -> rnc;
+hsn -> rnc;
+jjs [shape=circle]
+y36 -> jjs;
+x36 -> jjs;
+mwg [shape=diamond]
+rgq -> mwg;
+rfb -> mwg;
+kgg [shape=circle]
+y27 -> kgg;
+x27 -> kgg;
+z38 [shape=circle]
+sdm -> z38;
+wfs -> z38;
+wbd [shape=diamond]
+dgb -> wbd;
+cgn -> wbd;
+rmd [shape=diamond]
+jrh -> rmd;
+rnj -> rmd;
+qwd [shape=diamond]
+tcd -> qwd;
+qkm -> qwd;
+hmp [shape=circle]
+x37 -> hmp;
+y37 -> hmp;
+qhj [shape=box]
 rmd -> qhj;
 nmm -> qhj;
+rpn [shape=diamond]
+cjr -> rpn;
+dsn -> rpn;
+hwc [shape=box]
+x09 -> hwc;
+y09 -> hwc;
+ghf [shape=circle]
+y14 -> ghf;
+x14 -> ghf;
+hkj [shape=box]
+htt -> hkj;
+jvt -> hkj;
+z00 [shape=circle]
+x00 -> z00;
+y00 -> z00;
+z05 [shape=circle]
+gdb -> z05;
+tgc -> z05;
+z37 [shape=circle]
+dhb -> z37;
+hmp -> z37;
+pws [shape=box]
+gdb -> pws;
+tgc -> pws;
+z13 [shape=circle]
+qwd -> z13;
+scq -> z13;
+qkm [shape=box]
+sfq -> qkm;
+crn -> qkm;
+gsd [shape=box]
+y21 -> gsd;
+x21 -> gsd;
+hsn [shape=box]
+wvp -> hsn;
+pck -> hsn;
+jnt [shape=box]
+x06 -> jnt;
+y06 -> jnt;
+z33 [shape=circle]
+btb -> z33;
+kvq -> z33;
+bcb [shape=circle]
+x31 -> bcb;
+y31 -> bcb;
+fpf [shape=box]
+y13 -> fpf;
+x13 -> fpf;
+qfr [shape=box]
+kgm -> qfr;
+mwn -> qfr;
+kwj [shape=diamond]
+cff -> kwj;
+fhv -> kwj;
+kjh [shape=diamond]
+cmv -> kjh;
+qch -> kjh;
+fjp [shape=box]
+y41 -> fjp;
+x41 -> fjp;
+dsn [shape=box]
+rdm -> dsn;
+bck -> dsn;
+sdm [shape=diamond]
+rmm -> sdm;
+npc -> sdm;
+nmv [shape=box]
+y03 -> nmv;
+x03 -> nmv;
+z32 [shape=circle]
+fhf -> z32;
+trb -> z32;
+ktm [shape=box]
+y40 -> ktm;
+x40 -> ktm;
+ghk [shape=box]
+x11 -> ghk;
+y11 -> ghk;
+mqt [shape=diamond]
+jdd -> mqt;
+spr -> mqt;
+z21 [shape=circle]
+dtm -> z21;
+tvs -> z21;
+z26 [shape=circle]
+msm -> z26;
+tbj -> z26;
+fsb [shape=box]
+hkg -> fsb;
+mtb -> fsb;
+rvj [shape=diamond]
+wpp -> rvj;
+fpf -> rvj;
+z25 [shape=circle]
+vgk -> z25;
+sjq -> z25;
+bck [shape=circle]
+x01 -> bck;
+y01 -> bck;
+z43 [shape=circle]
+nkh -> z43;
+kfb -> z43;
+qpp [shape=diamond]
+hfd -> qpp;
+bmn -> qpp;
+pvn [shape=circle]
+x16 -> pvn;
+y16 -> pvn;
+cjr [shape=box]
+x01 -> cjr;
+y01 -> cjr;
+vsv [shape=box]
+scp -> vsv;
+vkd -> vsv;
+dbr [shape=box]
+pns -> dbr;
+fhc -> dbr;
+dtr [shape=box]
+msm -> dtr;
+tbj -> dtr;
+gjb [shape=box]
+nrv -> gjb;
+kjh -> gjb;
+pdp [shape=box]
+ggt -> pdp;
+ftg -> pdp;
+rgq [shape=box]
+y38 -> rgq;
+x38 -> rgq;
+z10 [shape=circle]
+rnc -> z10;
+vms -> z10;
+cdk [shape=box]
+y44 -> cdk;
+x44 -> cdk;
+rnj [shape=box]
+y10 -> rnj;
+x10 -> rnj;
+gdb [shape=diamond]
+ggp -> gdb;
+wgc -> gdb;
+ftg [shape=diamond]
+vnb -> ftg;
+qnd -> ftg;
+npc [shape=box]
+y37 -> npc;
+x37 -> npc;
+vnb [shape=box]
+dds -> vnb;
+ppm -> vnb;
+krr [shape=box]
+cfp -> krr;
+jjs -> krr;
+fsh [shape=box]
+y32 -> fsh;
+x32 -> fsh;
+qhr [shape=box]
+mqt -> qhr;
+ftr -> qhr;
+ggt [shape=circle]
+y23 -> ggt;
+x23 -> ggt;
+nrv [shape=circle]
+y18 -> nrv;
+x18 -> nrv;
+qns [shape=box]
+sjq -> qns;
+vgk -> qns;
+sqv [shape=box]
+y19 -> sqv;
+x19 -> sqv;
+nkh [shape=diamond]
+gwf -> nkh;
+vrf -> nkh;
+prq [shape=box]
+x39 -> prq;
+y39 -> prq;
+wvp [shape=circle]
+y09 -> wvp;
+x09 -> wvp;
+z40 [shape=circle]
+mtb -> z40;
+hkg -> z40;
+z11 [shape=circle]
+rmd -> z11;
+nmm -> z11;
+vkd [shape=circle]
 x06 -> vkd;
 y06 -> vkd;
+cmv [shape=box]
 gvs -> cmv;
 cwj -> cmv;
+z18 [shape=circle]
 nrv -> z18;
 kjh -> z18;
+jdd [shape=box]
 y29 -> jdd;
 x29 -> jdd;
+z08 [shape=circle]
 rgt -> z08;
 tpb -> z08;
+shn [shape=box]
 qpp -> shn;
 jqs -> shn;
+z41 [shape=circle]
 htt -> z41;
 jvt -> z41;
+z44 [shape=circle]
 dfp -> z44;
 rvd -> z44;
+ftw [shape=box]
 y43 -> ftw;
 x43 -> ftw;
+sjd [shape=box]
 y30 -> sjd;
 x30 -> sjd;
+z24 [shape=circle]
 qrh -> z24;
 mbg -> z24;
+z09 [shape=circle]
 pck -> z09;
 wvp -> z09;
+z29 [shape=circle]
 grc -> z29;
 whw -> z29;
+dbk [shape=box]
 x27 -> dbk;
 y27 -> dbk;
+dhb [shape=diamond]
 mmd -> dhb;
 krr -> dhb;
+z12 [shape=circle]
 sfq -> z12;
 crn -> z12;
+wgc [shape=box]
 y04 -> wgc;
 x04 -> wgc;
+wfs [shape=circle]
 y38 -> wfs;
 x38 -> wfs;
+fkr [shape=circle]
 y04 -> fkr;
 x04 -> fkr;
+bmp [shape=diamond]
 sjd -> bmp;
 qhr -> bmp;
+z23 [shape=circle]
 ggt -> z23;
 ftg -> z23;
+tgc [shape=circle]
 x05 -> tgc;
 y05 -> tgc;
+hfd [shape=box]
 y02 -> hfd;
 x02 -> hfd;
+z20 [shape=circle]
 mwn -> z20;
 kgm -> z20;
+rgt [shape=diamond]
 dbr -> rgt;
 tsr -> rgt;
+pns [shape=circle]
 x07 -> pns;
 y07 -> pns;
+dtm [shape=diamond]
 qfr -> dtm;
 vgd -> dtm;
+gnf [shape=box]
 y18 -> gnf;
 x18 -> gnf;
+rtq [shape=box]
 x15 -> rtq;
 y15 -> rtq;
+wmm [shape=box]
 dnq -> wmm;
 rpv -> wmm;
+tmp [shape=diamond]
 gnk -> tmp;
 rtq -> tmp;
-y35 -> z35;
-x35 -> z35;
+hqk [shape=box]
+y35 -> hqk;
+x35 -> hqk;
+tsr [shape=box]
 x07 -> tsr;
 y07 -> tsr;
+dgm [shape=box]
 rvj -> dgm;
 ghf -> dgm;
+qjh [shape=box]
 x25 -> qjh;
 y25 -> qjh;
+cgn [shape=box]
 kvq -> cgn;
 btb -> cgn;
-kwj -> hqk;
-bhv -> hqk;
+z35 [shape=circle]
+kwj -> z35;
+bhv -> z35;
+mtb [shape=diamond]
 jkn -> mtb;
 prq -> mtb;
+wpp [shape=box]
 qwd -> wpp;
 scq -> wpp;
+qrh [shape=circle]
 y24 -> qrh;
 x24 -> qrh;
+gnk [shape=box]
 prg -> gnk;
 kvn -> gnk;
+cnw [shape=box]
 y28 -> cnw;
 x28 -> cnw;
+scq [shape=circle]
 x13 -> scq;
 y13 -> scq;
+sjq [shape=diamond]
 wrp -> sjq;
 dgv -> sjq;
-vkd -> fhc;
-scp -> fhc;
+z06 [shape=circle]
+vkd -> z06;
+scp -> z06;
+mbg [shape=diamond]
 mwh -> mbg;
 pdp -> mbg;
+rdm [shape=box]
 y00 -> rdm;
 x00 -> rdm;
+z14 [shape=circle]
 ghf -> z14;
 rvj -> z14;
+nmm [shape=circle]
 y11 -> nmm;
 x11 -> nmm;
+bvg [shape=box]
 bhv -> bvg;
 kwj -> bvg;
+cgr [shape=diamond]
 dbk -> cgr;
 bwq -> cgr;
+vvs [shape=box]
 bmp -> vvs;
 bcb -> vvs;
+z07 [shape=circle]
 fhc -> z07;
 pns -> z07;
+vms [shape=circle]
 y10 -> vms;
 x10 -> vms;
+kbq [shape=box]
 y16 -> kbq;
 x16 -> kbq;
+hgv [shape=circle]
 y42 -> hgv;
 x42 -> hgv;
+jrh [shape=box]
 rnc -> jrh;
 vms -> jrh;
+mmd [shape=box]
 x36 -> mmd;
 y36 -> mmd;
+rfb [shape=box]
 wfs -> rfb;
 sdm -> rfb;
+kfb [shape=circle]
 x43 -> kfb;
 y43 -> kfb;
+mph [shape=box]
 rqt -> mph;
 cgr -> mph;
+kkq [shape=box]
 y31 -> kkq;
 x31 -> kkq;
+tcd [shape=box]
 x12 -> tcd;
 y12 -> tcd;
+wrp [shape=box]
 x24 -> wrp;
 y24 -> wrp;
+scp [shape=diamond]
 ptv -> scp;
 pws -> scp;
+dgv [shape=box]
 mbg -> dgv;
 qrh -> dgv;
+rmm [shape=box]
 hmp -> rmm;
 dhb -> rmm;
+pck [shape=diamond]
 wvn -> pck;
 rmf -> pck;
+whw [shape=diamond]
 cnw -> whw;
 mph -> whw;
+cff [shape=box]
 wbd -> cff;
 mbr -> cff;
+z03 [shape=circle]
 jqs -> z03;
 qpp -> z03;
+{ rank = same; x00; x01; x02; x03; x04; x05; x06; x07; x08; x09; x10; x11; x12; x13; x14; x15; x16; x17; x18; x19; x20; x21; x22; x23; x24; x25; x26; x27; x28; x29; x30; x31; x32; x33; x34; x35; x36; x37; x38; x39; x40; x41; x42; x43; };
+{ rank = same; y00; y01; y02; y03; y04; y05; y06; y07; y08; y09; y10; y11; y12; y13; y14; y15; y16; y17; y18; y19; y20; y21; y22; y23; y24; y25; y26; y27; y28; y29; y30; y31; y32; y33; y34; y35; y36; y37; y38; y39; y40; y41; y42; y43; };
+{ rank = same; z00; z01; z02; z03; z04; z05; z06; z07; z08; z09; z10; z11; z12; z13; z14; z15; z16; z17; z18; z19; z20; z21; z22; z23; z24; z25; z26; z27; z28; z29; z30; z31; z32; z33; z34; z35; z36; z37; z38; z39; z40; z41; z42; z43; z44; };
 0

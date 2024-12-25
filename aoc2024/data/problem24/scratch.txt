@@ -1,0 +1,33 @@
+vkd XOR scp -> fhc
+
+y05 AND x05 -> ptv
+fhc XOR pns -> z07
+pns AND fhc -> dbr
+ptv OR pws -> scp
+
+Check fhc - z06: 3
+Check fhc - jnt: 3
+Check fhc - vsv: 3
+
+
+Check z11 - crn: 2
+Check z11 - qhj: 2  +
+
+Check z35 - bhv: 1 +
+Check z35 - cfp: 1
+Check z35 - hqk: 1 +
+
+
+Check mwh - qnd: 0
+Check mwh - ggt: 0 +
+Check mwh - ftg: 0
+Check mwh - vnb: 0
+Check mwh - z23: 0
+
+fhc,ggt,hqk,mwh,qhj,z06,z11,z35
+
+fhc,qhj,hqk,mwh,z06,z11,z35,ggt
+        let input = input.swap("fhc".to_string(), "z06".to_string()).unwrap();
+        let input = input.swap("qhj".to_string(), "z11".to_string()).unwrap();
+        let input = input.swap("hqk".to_string(), "z35".to_string()).unwrap();
+        let input = input.swap("mwh".to_string(), "ggt".to_string()).unwrap();

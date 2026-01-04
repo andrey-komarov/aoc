@@ -9,9 +9,13 @@ fn main() -> anyhow::Result<()> {
     println!("Hello, world!");
     solve(&Problem00 {},
           PathBuf::from("data/problem00/00.in"),PathBuf::from("data/problem00/00.out"))?;
-    solve(&Problem01 {},
+    solve(&Problem01::new_part1(),
           PathBuf::from("data/problem01/sample.in"),PathBuf::from("data/problem01/sample.out"))?;
-    solve(&Problem01 {},
+    solve(&Problem01::new_part1(),
           PathBuf::from("data/problem01/01.in"),PathBuf::from("data/problem01/01.out"))?;
+    solve(&Problem01::new_part2(),
+          PathBuf::from("data/problem01/sample.in"),PathBuf::from("data/problem01/sample-2.out"))?;
+    solve(&Problem01::new_part2(),
+          PathBuf::from("data/problem01/01.in"),PathBuf::from("data/problem01/01-2.out"))?;
     Ok(())
 }

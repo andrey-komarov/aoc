@@ -1,7 +1,9 @@
+use std::cmp::{max, min};
 use std::io::BufRead;
 use anyhow::Context;
 use crate::problems::common::Problem;
 
+#[derive(Clone)]
 struct Range {
     from: u64,
     to: u64,
@@ -11,10 +13,13 @@ pub struct Input {
     ids: Vec<u64>,
 }
 
-pub struct Problem05 {}
+pub struct Problem05 {
+    is_part1: bool
+}
 
 impl Problem05 {
-    pub fn new() -> Self { Self {} }
+    pub fn new() -> Self { Self { is_part1: true } }
+    pub fn new_part2() -> Self { Self { is_part1: false } }
 }
 
 impl Problem for Problem05 {
@@ -40,10 +45,40 @@ impl Problem for Problem05 {
     }
 
     fn solve(&self, input: Self::Input) -> Self::Output {
-        input.ids.iter().filter(|&id| {
-            input.ranges.iter().any(|range| {
-                range.from <= *id && *id <= range.to
-            })
-        }).count()
+        if self.is_part1 {
+            input.ids.iter().filter(|&id| {
+                input.ranges.iter().any(|range| {
+                    range.from <= *id && *id <= range.to
+                })
+            }).count()
+        } else {
+            let mut ranges = input.ranges.clone();
+            fn merge(range1: &Range, range2: &Range) -> Option<Range> {
+                if range1.to < range2.from || range2.to < range1.from {
+                    None
+                } else {
+                    Some(Range {
+                        from: min(range1.from, range2.from),
+                        to: max(range1.to, range2.to),
+                    })
+                }
+            }
+            'outer: loop {
+                for i in 0..ranges.len() {
+                    for j in i+1..ranges.len() {
+                        if let Some(new_range) = merge(&ranges[i], &ranges[j]) {
+                            ranges.remove(j);
+                            ranges.remove(i);
+                            ranges.push(new_range);
+                            continue 'outer;
+                        }
+                    }
+                }
+                break;
+            }
+            ranges.iter().map(|range| {
+                (range.to - range.from + 1) as usize
+            }).sum()
+        }
     }
 }

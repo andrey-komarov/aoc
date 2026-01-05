@@ -2,7 +2,7 @@ use std::cmp::PartialEq;
 use std::io::BufRead;
 use crate::problems::common::Problem;
 
-#[derive(Eq, PartialEq)]
+#[derive(Eq, PartialEq, Clone)]
 enum Cell {
     Empty, PaperRoll
 }
@@ -11,10 +11,14 @@ pub struct Input {
     field: Vec<Vec<Cell>>
 }
 
-pub(crate) struct Problem04 {}
+pub(crate) struct Problem04 {
+    is_part1: bool
+}
 
 impl Problem04 {
-    pub fn new() -> Self { Self {} }
+    pub fn new() -> Self { Self { is_part1: true } }
+
+    pub fn new_part2() -> Self { Self { is_part1: false } }
 }
 
 impl Problem for Problem04 {
@@ -38,23 +42,46 @@ impl Problem for Problem04 {
     fn solve(&self, input: Self::Input) -> Self::Output {
         let rows = input.field.len();
         let cols = input.field[0].len();
-        let mut answer = 0;
-        for i in 0..rows {
-            for j in 0..cols {
-                let mut count = 0;
-                for dx in (-1 as isize)..=1 {
-                    for dy in (-1 as isize)..=1 {
-                        let x= i as isize + dx;
-                        let y = j as isize + dy;
-                        if 0 <= x && x < rows as isize && 0 <= y && y < cols as isize {
-                            if let Cell::PaperRoll = input.field[x as usize][y as usize] {
-                                count += 1;
-                            }
+        let can_remove = |field: &Vec<Vec<Cell>>, x: usize, y: usize| -> bool {
+            let mut count = 0;
+            for dx in (-1 as isize)..=1 {
+                for dy in (-1 as isize)..=1 {
+                    let x = x as isize + dx;
+                    let y = y as isize + dy;
+                    if 0 <= x && x < rows as isize && 0 <= y && y < cols as isize {
+                        if let Cell::PaperRoll = field[x as usize][y as usize] {
+                            count += 1;
                         }
                     }
                 }
-                if count <= 4 && input.field[i][j] == Cell::PaperRoll {
-                    answer += 1;
+            }
+            count <= 4 && field[x][y] == Cell::PaperRoll
+        };
+
+        let mut answer = 0;
+        if self.is_part1 {
+            for i in 0..rows {
+                for j in 0..cols {
+                    if can_remove(&input.field, i, j) {
+                        answer += 1;
+                    }
+                }
+            }
+        } else {
+            let mut field = input.field.clone();
+            loop {
+                let mut updated = false;
+                for i in 0..rows {
+                    for j in 0..cols {
+                        if can_remove(&field, i, j) {
+                            answer += 1;
+                            field[i][j] = Cell::Empty;
+                            updated = true;
+                        }
+                    }
+                }
+                if !updated {
+                    break;
                 }
             }
         }

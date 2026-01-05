@@ -5,3 +5,4 @@ pub(crate) mod problem02;
 pub(crate) mod problem03;
 pub(crate) mod problem04;
 pub(crate) mod problem05;
+pub(crate) mod problem06;

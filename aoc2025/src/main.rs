@@ -5,6 +5,7 @@ use crate::problems::problem01::Problem01;
 use crate::problems::problem02::Problem02;
 use crate::problems::problem03::Problem03;
 use crate::problems::problem04::Problem04;
+use crate::problems::problem05::Problem05;
 use crate::problems::common::solve;
 
 mod problems;
@@ -19,7 +20,8 @@ fn main() -> anyhow::Result<()> {
         (1, false),
         (2, false),
         (3, false),
-        (4, true),
+        (4, false),
+        (5, true),
     ]);
 
     if run_solver[&1] {
@@ -64,6 +66,13 @@ fn main() -> anyhow::Result<()> {
               PathBuf::from("data/problem04/sample.in"),PathBuf::from("data/problem04/sample-2.out"))?;
         solve(&Problem04::new_part2(),
               PathBuf::from("data/problem04/01.in"),PathBuf::from("data/problem04/01-2.out"))?;
+    }
+
+    if run_solver[&5] {
+        solve(&Problem05::new(),
+              PathBuf::from("data/problem05/sample.in"),PathBuf::from("data/problem05/sample.out"))?;
+        solve(&Problem05::new(),
+              PathBuf::from("data/problem05/01.in"),PathBuf::from("data/problem05/01.out"))?;
     }
 
     Ok(())

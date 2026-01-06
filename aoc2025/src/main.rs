@@ -112,6 +112,10 @@ fn main() -> anyhow::Result<()> {
               PathBuf::from("data/problem08/sample.in"), PathBuf::from("data/problem08/sample.out"))?;
         solve(&Problem08::new(1000),
               PathBuf::from("data/problem08/01.in"), PathBuf::from("data/problem08/01.out"))?;
+        solve(&Problem08::new_part2(),
+              PathBuf::from("data/problem08/sample.in"), PathBuf::from("data/problem08/sample-2.out"))?;
+        solve(&Problem08::new_part2(),
+              PathBuf::from("data/problem08/01.in"), PathBuf::from("data/problem08/01-2.out"))?;
     }
 
     Ok(())

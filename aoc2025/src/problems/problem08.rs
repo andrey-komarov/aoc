@@ -18,11 +18,60 @@ pub struct Input {
 }
 
 pub(crate) struct Problem08 {
+    is_part1: bool,
     steps: usize,
 }
 
 impl Problem08 {
-    pub fn new(steps: usize) -> Self { Self {steps} }
+    pub fn new(steps: usize) -> Self { Self { is_part1: true, steps} }
+
+    pub fn new_part2() -> Self { Self { is_part1: false, steps: 0} }
+
+    pub fn solve_part1(&self, input: Input) -> <Problem08 as Problem>::Output {
+        let mut dsu = DSU::new(input.points.len());
+        let mut distances = Vec::new();
+        for i in 0..input.points.len() {
+            for j in i + 1..input.points.len() {
+                distances.push((input.points[i].dist2(&input.points[j]), i, j))
+            }
+        }
+        distances.sort_by(|a, b| a.0.cmp(&b.0));
+        for (_, (_d, p1, p2)) in (0..self.steps).zip(distances) {
+            dsu.merge(p1, p2).unwrap();
+        }
+        let mut count = HashMap::new();
+        for i in 0..input.points.len() {
+            let class = dsu.get_class(i).unwrap();
+            *count.entry(class).or_insert(0) += 1;
+        }
+        let mut entries = count.iter().collect::<Vec<_>>();
+        entries.sort_by(|a, b| a.1.cmp(b.1).reverse());
+        (0..3).zip(entries).map(|(_, (_, count))| {
+            count
+        }).product()
+    }
+
+    pub fn solve_part2(&self, input: Input) -> <Problem08 as Problem>::Output {
+        let mut dsu = DSU::new(input.points.len());
+        let mut distances = Vec::new();
+        for i in 0..input.points.len() {
+            for j in i + 1..input.points.len() {
+                distances.push((input.points[i].dist2(&input.points[j]), i, j))
+            }
+        }
+        distances.sort_by(|a, b| a.0.cmp(&b.0));
+        let mut merges = 0;
+        for (_d, p1, p2) in distances {
+            if dsu.get_class(p1).unwrap() != dsu.get_class(p2).unwrap() {
+                dsu.merge(p1, p2).unwrap();
+                merges += 1;
+                if merges == input.points.len() - 1 {
+                    return (input.points[p1].coords[0] * input.points[p2].coords[0]) as u64
+                }
+            }
+        }
+        unreachable!()
+    }
 }
 
 struct DSU {
@@ -75,38 +124,10 @@ impl Problem for Problem08 {
     }
 
     fn solve(&self, input: Self::Input) -> Self::Output {
-        let mut dsu = DSU::new(input.points.len());
-        let mut distances = Vec::new();
-        for i in 0..input.points.len() {
-            for j in i + 1..input.points.len() {
-                distances.push((input.points[i].dist2(&input.points[j]), i, j))
-            }
+        if self.is_part1 {
+            self.solve_part1(input)
+        } else {
+            self.solve_part2(input)
         }
-        distances.sort_by(|a, b| a.0.cmp(&b.0));
-        /*
-        let mut connections = 0;
-        for (_d, p1, p2) in distances.into_iter() {
-            if dsu.get_class(p1).unwrap() != dsu.get_class(p2).unwrap() {
-                connections += 1;
-                dsu.merge(p1, p2).unwrap();
-                if connections == self.steps - 1 {
-                    break
-                }
-            }
-        }
-        */
-        for (_, (_d, p1, p2)) in (0..self.steps).zip(distances) {
-            dsu.merge(p1, p2).unwrap();
-        }
-        let mut count = HashMap::new();
-        for i in 0..input.points.len() {
-            let class = dsu.get_class(i).unwrap();
-            *count.entry(class).or_insert(0) += 1;
-        }
-        let mut entries = count.iter().collect::<Vec<_>>();
-        entries.sort_by(|a, b| a.1.cmp(b.1).reverse());
-        (0..3).zip(entries).map(|(_, (_, count))| {
-            count
-        }).product()
     }
 }

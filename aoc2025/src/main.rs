@@ -7,6 +7,7 @@ use crate::problems::problem03::Problem03;
 use crate::problems::problem04::Problem04;
 use crate::problems::problem05::Problem05;
 use crate::problems::problem06::{Problem06, Problem06Part2};
+use crate::problems::problem07::Problem07;
 use crate::problems::common::solve;
 
 mod problems;
@@ -90,6 +91,13 @@ fn main() -> anyhow::Result<()> {
               PathBuf::from("data/problem06/sample.in"),PathBuf::from("data/problem06/sample-2.out"))?;
         solve(&Problem06Part2::new(),
               PathBuf::from("data/problem06/01.in"),PathBuf::from("data/problem06/01-2.out"))?;
+    }
+
+    if run_solver[&6] {
+        solve(&Problem07::new(),
+              PathBuf::from("data/problem07/sample.in"), PathBuf::from("data/problem07/sample.out"))?;
+        solve(&Problem07::new(),
+              PathBuf::from("data/problem07/01.in"), PathBuf::from("data/problem07/01.out"))?;
     }
 
     Ok(())

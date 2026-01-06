@@ -12,10 +12,55 @@ pub struct Input {
     start_column: usize,
 }
 
-pub(crate) struct Problem07 {}
+pub(crate) struct Problem07 {
+    is_part1: bool,
+}
 
 impl Problem07 {
-    pub(crate) fn new() -> Self { Self {} }
+    pub(crate) fn new() -> Self { Self { is_part1: true } }
+    pub(crate) fn new_part2() -> Self { Self { is_part1: false } }
+
+    fn solve_part1(&self, input: Input) -> <Problem07 as Problem>::Output {
+        let mut beams = HashSet::from([input.start_column]);
+        let mut result = 0;
+        for line in input.field {
+            let mut new_beams = HashSet::new();
+            for beam in beams {
+                match line[beam] {
+                    Cell::Empty => {
+                        new_beams.insert(beam);
+                    }
+                    Cell::Splitter => {
+                        new_beams.insert(beam - 1);
+                        new_beams.insert(beam + 1);
+                        result += 1;
+                    }
+                }
+            }
+            beams = new_beams;
+        }
+        result
+    }
+
+    fn solve_part2(&self, input: Input) -> <Problem07 as Problem>::Output {
+        let rows = input.field.len();
+        let cols = input.field[0].len();
+        let mut dp = vec![vec![0; cols]; rows];
+        dp.push(vec![1; cols]);
+        for i in (0..rows).rev() {
+            for j in 0..cols {
+                match input.field[i][j] {
+                    Cell::Empty => {
+                        dp[i][j] = dp[i + 1][j];
+                    }
+                    Cell::Splitter => {
+                        dp[i][j] = dp[i + 1][j - 1] + dp[i + 1][j + 1];
+                    }
+                }
+            }
+        }
+        dp[0][input.start_column]
+    }
 }
 
 impl Problem for Problem07 {
@@ -46,24 +91,10 @@ impl Problem for Problem07 {
     }
 
     fn solve(&self, input: Self::Input) -> Self::Output {
-        let mut beams = HashSet::from([input.start_column]);
-        let mut result = 0;
-        for line in input.field {
-            let mut new_beams = HashSet::new();
-            for beam in beams {
-                match line[beam] {
-                    Cell::Empty => {
-                        new_beams.insert(beam);
-                    }
-                    Cell::Splitter => {
-                        new_beams.insert(beam - 1);
-                        new_beams.insert(beam + 1);
-                        result += 1;
-                    }
-                }
-            }
-            beams = new_beams;
+        if self.is_part1 {
+            self.solve_part1(input)
+        } else {
+            self.solve_part2(input)
         }
-        result
     }
 }

@@ -1,7 +1,6 @@
 use std::cmp::min;
 use std::collections::HashMap;
 use std::io::BufRead;
-use std::ops::Mul;
 use anyhow::Context;
 use crate::problems::common::Problem;
 
@@ -16,7 +15,6 @@ pub struct MachineState<'a> {
     machine: &'a Machine,
     remaining_joltage: Vec<i32>,
     used_buttons: Vec<bool>,
-    cache: HashMap<Vec<i32>, Option<usize>>,
     best: usize,
     current: usize,
 }
@@ -37,9 +35,6 @@ impl MachineState<'_> {
         }
         if self.remaining_joltage.iter().any(|j| *j < 0) || self.used_buttons.iter().all(|b| *b) {
             return None;
-        }
-        if let Some(res) = self.cache.get(&self.remaining_joltage) {
-            return *res;
         }
         let mut rarity = HashMap::new();
         for (i, button) in self.machine.buttons.iter().enumerate() {
@@ -94,7 +89,6 @@ impl MachineState<'_> {
             }
         }
         self.used_buttons[button_with_rarest_light] = false;
-        self.cache.insert(self.remaining_joltage.clone(), result);
         result
     }
 }
@@ -124,7 +118,6 @@ impl Machine {
             machine: &self,
             remaining_joltage: self.joltage.clone(),
             used_buttons: vec![false; buttons],
-            cache: HashMap::new(),
             best: usize::max_value(),
             current: 0,
         };
